@@ -42,7 +42,7 @@ I note that during the selection of candidates on the basis of which new agents 
   
 Due to the fact that all 12 agents are evaluated after each round, we get an error estimate because the agents end up in different initial conditions. In return, we get an acceleration of 12 times. As you understand, with 100 agents, we will get a 100-fold acceleration, because ideally we need to test by placing each agent in the same environment. This error can significantly affect our assessment, which is why the GA will miss effective agents. To combat this negative effect, we use 2 methods:
 1) The first method is that each subsequent evaluation does not replace the previous one, but corrects:
-`end_value = end_value + (end_value-cur_value)*(1/10)`, where `end_value` is the agent's final score, `cur_value` is the agent's score in the current round, 10 is the coefficient. As the coefficient increases, the estimate will change more slowly, but it's averaging will occur more accurately. With small values of the coefficient (1, 2), random bad conditions can give a bad estimate for a good agent, then the final estimate will change too abruptly and the agent will be disposed of (lost forever).
+`value[i] = value[i-1] + (value[i-1]-cur_value)*(1/10)`, where `value[i]` is the adjusted score, `value[i-1]` is the score for the previous round, `cur_value` is the score based on the results of one current round, and 10 is the coefficient. As the coefficient increases, the estimate will change more slowly, but it's averaging will occur more accurately. With small values of the coefficient (1, 2), random bad conditions can give a bad estimate for a good agent, then the final estimate will change too abruptly and the agent will be disposed of (lost forever).
 
 2) The second method is to dispose of bad agents not every round, but every N rounds. We chose N = 2. This improves the accuracy of the estimate, because it reduces the random error, but slows down our algorithm by 2 times. But it's still much faster than if we were doing a fair 12 rounds for a single GA iteration.
 </details>
@@ -67,3 +67,10 @@ https://user-images.githubusercontent.com/103655830/177857835-accb5390-8fb8-42d4
 It turned out pretty well. The main advantage of this approach is that we have absolutely no idea about the rules that the external environment sets and how the agent interacts with it. To work, it is enough just to be able to evaluate the effectiveness of an agent using some function.
 
 You can develop the algorithm in different directions, for example, expand the command system, which will allow you to obtain completely new behavior models, use adaptive hyperparameters for GA, parallelize by running several simulations with subsequent integration. Good luck!
+
+## Launch and modification
+In order to launch .w3x maps you need any warcraft 3 version 1.26+
+
+In order to view the code it is enough to open the map in the World Editor, which is in the folder with warcraft 3, but JassNewGenPack is recommended, because it has TESH built in, which has a jass syntax highlighting
+
+In order to modify and save these maps you need a JassNewGenPack with cjass support, such as [this](https://xgm.guru/p/wc3/jassnewgenpack-r)
